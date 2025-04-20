@@ -1,6 +1,4 @@
 const RenderTodoTask = ({ tasks, alertContent }) => {
-   console.log(tasks[0].id);
-
    return (
       <ul className="space-y-2">
          {tasks.map((task) => (
