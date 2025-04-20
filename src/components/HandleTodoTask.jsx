@@ -4,7 +4,7 @@ const HandleTodoTask = () => {
    const [tasks, setTasks] = useState([]);
    const [error, setError] = useState("");
    const addNewTask = (content) => {
-      if (!content) {
+      if (!content.trim()) {
          setError("Please enter a task!");
          return;
       }

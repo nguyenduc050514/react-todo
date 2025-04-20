@@ -4,7 +4,7 @@ const RenderTodoTask = ({ tasks, alertContent, deleteTask }) => {
          {tasks.map((task) => (
             <li
                key={task.id}
-               className="flex items-center justify-between p-3 rounded-lg bg-gray-200 hover:bg-gray-250"
+               className="flex items-center justify-between px-4 rounded-lg bg-gray-200 hover:bg-gray-250"
                onClick={() => {
                   alertContent(task.content);
                }}

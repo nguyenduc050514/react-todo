@@ -3,6 +3,7 @@ import EmptyTask from "./components/EmptyTask";
 import RenderTodoTask from "./components/RenderTodoTask";
 import HandleTodoTask from "./components/HandleTodoTask";
 import { useEffect } from "react";
+
 const App = () => {
    const { tasks, error, addNewTask, deleteTask, setError } = HandleTodoTask();
    useEffect(() => {
