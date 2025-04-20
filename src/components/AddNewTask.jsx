@@ -11,7 +11,7 @@ const AddNewTask = ({ addNewTask }) => {
             onChange={(e) => setContent(e.target.value)}
          />
          <button
-            className="inline-block max-w-4xl cursor-pointer bg-blue-600 px-4 py-4 rounded text-white"
+            className="inline-block max-w-4xl cursor-pointer bg-blue-600 px-4 py-2 rounded text-white hover:bg-blue-800"
             type="submit"
             onClick={() => {
                addNewTask(content);

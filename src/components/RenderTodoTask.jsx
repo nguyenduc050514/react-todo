@@ -1,4 +1,4 @@
-const RenderTodoTask = ({ tasks, alertContent }) => {
+const RenderTodoTask = ({ tasks, alertContent, deleteTask }) => {
    return (
       <ul className="space-y-2">
          {tasks.map((task) => (
@@ -10,8 +10,13 @@ const RenderTodoTask = ({ tasks, alertContent }) => {
                }}
             >
                <span className="flex-grow text-gray-800">{task.content}</span>
-               <span className="flex-grow text-gray-800">{task.createdAt}</span>
-               <button className="text-red-500 hover:text-red-700 hover:bg-red-100 p-2 rounded cursor-pointer text-3xl">
+               <button
+                  className="text-red-500 hover:text-red-700 hover:bg-red-100 p-2 rounded cursor-pointer text-3xl"
+                  onClick={(e) => {
+                     e.stopPropagation();
+                     deleteTask(task.id);
+                  }}
+               >
                   {task.buttonClose}
                </button>
             </li>
