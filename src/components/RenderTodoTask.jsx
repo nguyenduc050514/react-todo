@@ -1,0 +1,24 @@
+const RenderTodoTask = ({ tasks, alertContent }) => {
+   console.log(tasks[0].id);
+
+   return (
+      <ul className="space-y-2">
+         {tasks.map((task) => (
+            <li
+               key={task.id}
+               className="flex items-center justify-between p-3 rounded-lg bg-gray-200 hover:bg-gray-250"
+               onClick={() => {
+                  alertContent(task.content);
+               }}
+            >
+               <span className="flex-grow text-gray-800">{task.content}</span>
+               <span className="flex-grow text-gray-800">{task.createdAt}</span>
+               <button className="text-red-500 hover:text-red-700 hover:bg-red-100 p-2 rounded cursor-pointer text-3xl">
+                  {task.buttonClose}
+               </button>
+            </li>
+         ))}
+      </ul>
+   );
+};
+export default RenderTodoTask;
