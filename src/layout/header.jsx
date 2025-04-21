@@ -1,7 +1,12 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 const Header = () => {
-   const [isActive, setIsActive] = useState(0);
+   const location = useLocation();
+   const [pathName, setPathName] = useState("/");
+   console.log(pathName);
+   useEffect(() => {
+      setPathName(location.pathname);
+   }, [location.pathname]);
    const navItems = [
       {
          content: "Home",
@@ -24,28 +29,16 @@ const Header = () => {
       <header className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg">
          <div className="p-4 container mx-auto flex items-center justify-between">
             <div className="text-2xl font-bold">
-               <Link
-                  to="/"
-                  onClick={() => {
-                     setIsActive(0);
-                  }}
-               >
-                  Logo
-               </Link>
+               <Link to="/">Logo</Link>
             </div>
             <nav>
                <ul className="flex items-center">
-                  {navItems.map(({ content, href }, index) => (
-                     <li
-                        key={content}
-                        onClick={() => {
-                           setIsActive(index);
-                        }}
-                     >
+                  {navItems.map(({ content, href }) => (
+                     <li key={content}>
                         <Link
                            to={href}
                            className={`p-4 hover:text-gray-300 transition duration-300 ${
-                              isActive === index
+                              pathName === href
                                  ? "text-cyan-200 border-b border-cyan-200 rounded-b"
                                  : ""
                            }`}
@@ -60,7 +53,6 @@ const Header = () => {
                <Link
                   to="/login"
                   className="text-blue-600 bg-white rounded-full font-semibold hover:text-white hover:bg-blue-600 inline-block h-10 min-w-25 leading-10 text-center"
-                  onClick={() => setIsActive(null)}
                >
                   Login
                </Link>
