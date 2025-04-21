@@ -49,7 +49,7 @@ const UsersForm = () => {
       const { fullName, password, email, phone } = formData;
       if (!fullName || !password || !email || !phone) return;
       const response = await createUser(fullName, password, email, phone);
-      if (response?.data?.data) {
+      if (response?.data) {
          api.success({
             message: "create user",
             description: "Tạo user thành công",
