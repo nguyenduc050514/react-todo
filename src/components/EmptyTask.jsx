@@ -1,10 +1,8 @@
+import checkList from "../assets/images/businessman-checklist.jpg";
 const EmptyTask = () => {
    return (
       <div className="flex items-center justify-center">
-         <img
-            src="https://img.freepik.com/premium-vector/businessman-checklist-office-worker-with-pen-looking-completed-checklist-concept_461812-118.jpg?w=360"
-            alt=""
-         />
+         <img src={checkList} alt="" />
       </div>
    );
 };
