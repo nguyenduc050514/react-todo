@@ -1,4 +1,4 @@
-function LoginPage() {
+const LoginPage = () => {
    return (
       <div className="max-w-md mx-auto mt-10">
          <h2 className="font-bold text-2xl text-center">Đăng Nhập</h2>
@@ -26,6 +26,6 @@ function LoginPage() {
          </form>
       </div>
    );
-}
+};
 
 export default LoginPage;
