@@ -10,5 +10,9 @@ const createUser = (fullName, password, email, phone) => {
    };
    return axios.post(URL_BACKEND, data); // Dùng instance, không phải axios
 };
+const getUsers = () => {
+   const URL_BACKEND = "/api/v1/user";
+   return axios.get(URL_BACKEND);
+};
 const updateUser = () => {};
-export { createUser, updateUser };
+export { createUser, updateUser, getUsers };

@@ -47,15 +47,20 @@ const UsersForm = () => {
    const handleSubmit = async (e) => {
       e.preventDefault();
       const { fullName, password, email, phone } = formData;
-      if (!fullName || !password || !email || !phone) return;
+      // if (!fullName || !password || !email || !phone) return;
       const response = await createUser(fullName, password, email, phone);
       if (response?.data) {
          api.success({
             message: "create user",
             description: "Tạo user thành công",
          });
+      } else {
+         api.error({
+            message: "Error user",
+            description: JSON.stringify(response?.message),
+         });
       }
-      console.log("User response:", response);
+      console.log("User response:", response.message);
    };
    return (
       <>

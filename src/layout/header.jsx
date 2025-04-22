@@ -3,7 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 const Header = () => {
    const location = useLocation();
    const [pathName, setPathName] = useState("/");
-   console.log(pathName);
    useEffect(() => {
       setPathName(location.pathname);
    }, [location.pathname]);
