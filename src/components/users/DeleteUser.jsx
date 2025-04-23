@@ -8,32 +8,49 @@ const DeleteUser = ({ deleteUserId, getAllUsers, setDeleteUserId }) => {
          const deleteData = async () => {
             try {
                const response = await deleteUser(deleteUserId);
-               if (response?.statusCode < 400) {
+               const statusCode = response?.statusCode;
+               if (statusCode === 200) {
                   api.success({
                      message: "Delete user",
                      description: "Delete thành công",
                   });
                   await getAllUsers();
-               } else {
-                  const message = err?.message;
+               } else if (statusCode === 404) {
+                  console.log(123);
                   api.error({
-                     message: "message",
-                     description: message,
+                     message: "Delete user",
+                     description: "User not found",
+                  });
+               } else if (statusCode === 400) {
+                  console.log(123);
+                  api.error({
+                     message: "Delete user",
+                     description: "Not delete admin user",
+                  });
+               } else if (statusCode === 500) {
+                  api.error({
+                     message: "Delete user",
+                     description: "Server error",
+                  });
+               } else if (statusCode === 403) {
+                  api.error({
+                     message: "Delete user",
+                     description: "Permission denied",
                   });
                }
             } catch (err) {
-               const message = err?.message;
                api.error({
-                  message: "message",
-                  description: message,
+                  message: "Delete user",
+                  description: "Delete failed",
                });
+               console.error("Delete user failed", err);
             } finally {
                setDeleteUserId(null);
             }
          };
          deleteData();
       }
-   }, [deleteUserId]);
+   }, [deleteUserId, api, getAllUsers, setDeleteUserId]);
 
    return <>{contextHolder}</>;
 };

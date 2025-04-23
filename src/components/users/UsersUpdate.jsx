@@ -7,7 +7,6 @@ const UsersUpdate = ({
    isModalOpen,
    setIsModalOpen,
    dataUpdate,
-   setDataUpdate,
 }) => {
    const [api, contextHolder] = notification.useNotification();
    const [formData, setFormData] = useState({
