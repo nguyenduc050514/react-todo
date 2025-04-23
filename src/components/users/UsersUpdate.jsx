@@ -1,6 +1,7 @@
 import { Button, Modal, notification } from "antd";
 import FormField from "./FormField";
 import { useEffect, useState } from "react";
+import { updateUser } from "../../services/api.services";
 
 const UsersUpdate = ({
    getAllUsers,
@@ -19,10 +20,9 @@ const UsersUpdate = ({
       return (e) => setFormData({ ...formData, [type]: e.target.value });
    };
    useEffect(() => {
-      console.log(dataUpdate);
       if (dataUpdate) {
          setFormData({
-            id: dataUpdate._id,
+            id: dataUpdate._id, 
             fullName: dataUpdate.fullName,
             phone: dataUpdate.phone,
          });
@@ -52,24 +52,25 @@ const UsersUpdate = ({
          placeholder: "Update phone...",
       },
    ];
-   //    const handleSubmit = async (e) => {
-   //       e.preventDefault();
-   //       setIsModalOpen(false);
-   //       const { fullName, password, email, phone } = formData;
-   //       // if (!fullName || !password || !email || !phone) return;
-   //       const response = await createUser(fullName, password, email, phone);
-   //       if (response?.data) {
-   //          api.success({
-   //             message: "Update user",
-   //             description: "Update thành công",
-   //          });
-   //       } else {
-   //          api.error({
-   //             message: "Error user",
-   //             description: JSON.stringify(response?.message),
-   //          });
-   //       }
-   //    };
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+      setIsModalOpen(false);
+      const { id, fullName, phone } = formData;
+      // if (!fullName || !password || !email || !phone) return;
+      const response = await updateUser(id, fullName, phone);
+      if (response?.data) {
+         api.success({
+            message: "Update user",
+            description: "Update thành công",
+         });
+         await getAllUsers();
+      } else {
+         api.error({
+            message: "Error user",
+            description: JSON.stringify(response?.message),
+         });
+      }
+   };
    return (
       <>
          {contextHolder}
@@ -77,7 +78,7 @@ const UsersUpdate = ({
             <Modal
                title="Update user"
                open={isModalOpen}
-               //    onOk={handleSubmit}
+               onOk={handleSubmit}
                onCancel={() => setIsModalOpen(false)}
                maskClosable={false}
                okText="Save"

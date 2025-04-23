@@ -68,7 +68,7 @@ const UsersForm = ({ getAllUsers }) => {
    return (
       <>
          {contextHolder}
-         <form action="" className="max-w-7xl mx-auto mt-4">
+         <form action="" className="mx-auto mt-4 px-7">
             <Modal
                title="Create user"
                open={isModalOpen}
@@ -81,7 +81,7 @@ const UsersForm = ({ getAllUsers }) => {
                ))}
             </Modal>
             <div className="flex justify-between w-full">
-               <h3>Table Users</h3>
+               <h3 className="font-bold text-gray-950">Table Users</h3>
                <Button type="primary" onClick={() => setIsModalOpen(true)}>
                   Create User
                </Button>

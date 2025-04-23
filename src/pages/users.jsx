@@ -18,8 +18,8 @@ const UsersPage = () => {
    return (
       <>
          <UsersForm getAllUsers={getAllUsers} />
-         <div className="px-15 mt-14">
-            <UsersTable dataUsers={dataUsers} />
+         <div className="px-7 mt-7">
+            <UsersTable getAllUsers={getAllUsers} dataUsers={dataUsers} />
          </div>
       </>
    );

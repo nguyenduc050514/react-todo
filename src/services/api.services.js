@@ -14,5 +14,13 @@ const getUsers = () => {
    const URL_BACKEND = "/api/v1/user";
    return axios.get(URL_BACKEND);
 };
-const updateUser = () => {};
+const updateUser = (_id, fullName, phone) => {
+   const URL_BACKEND = "/api/v1/user";
+   const data = {
+      _id,
+      fullName,
+      phone,
+   };
+   return axios.put(URL_BACKEND, data);
+};
 export { createUser, updateUser, getUsers };

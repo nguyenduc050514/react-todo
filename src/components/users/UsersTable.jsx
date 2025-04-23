@@ -3,7 +3,7 @@ import { Table } from "antd";
 import UsersUpdate from "./UsersUpdate";
 import { useState } from "react";
 
-const UsersTable = ({ dataUsers }) => {
+const UsersTable = ({ dataUsers, getAllUsers }) => {
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [dataUpdate, setDataUpdate] = useState(null);
    const columns = [
@@ -53,6 +53,7 @@ const UsersTable = ({ dataUsers }) => {
             setIsModalOpen={setIsModalOpen}
             dataUpdate={dataUpdate}
             setDataUpdate={setDataUpdate}
+            getAllUsers={getAllUsers}
          />
       </>
    );
