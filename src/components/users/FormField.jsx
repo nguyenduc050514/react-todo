@@ -1,11 +1,11 @@
 import { Input, Button, message } from "antd";
 const FormField = ({
-   id,
-   label,
-   value,
+   id = "",
+   label = "",
+   value = "",
    type = "text",
-   onChange,
-   placeholder,
+   onChange = () => {},
+   placeholder = "",
    disabled = false,
 }) => {
    return (
