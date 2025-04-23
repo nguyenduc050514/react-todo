@@ -1,8 +1,7 @@
-import { Button, Modal, notification } from "antd";
+import { Modal, notification } from "antd";
 import FormField from "./FormField";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { updateUser } from "../../services/api.services";
-
 const UsersUpdate = ({
    getAllUsers,
    isModalOpen,
@@ -16,60 +15,79 @@ const UsersUpdate = ({
       fullName: "",
       phone: "",
    });
-   const handleOnChange = (type) => {
-      return (e) => setFormData({ ...formData, [type]: e.target.value });
-   };
+   const handleOnChange = useCallback(
+      (type) => (e) =>
+         setFormData((prev) => ({ ...prev, [type]: e.target.value })),
+      []
+   );
    useEffect(() => {
       if (dataUpdate) {
          setFormData({
-            id: dataUpdate._id, 
+            id: dataUpdate._id,
             fullName: dataUpdate.fullName,
             phone: dataUpdate.phone,
          });
       }
    }, [dataUpdate]);
-   const fields = [
-      {
-         id: "id",
-         label: "ID",
-         value: formData.id,
-         onChange: handleOnChange("id"),
-         placeholder: "Update id...",
-         disabled: true,
-      },
-      {
-         id: "FullName",
-         label: "FullName",
-         value: formData.fullName,
-         onChange: handleOnChange("fullName"),
-         placeholder: "Update Full name...",
-      },
-      {
-         id: "Phone",
-         label: "Phone",
-         value: formData.phone,
-         onChange: handleOnChange("phone"),
-         placeholder: "Update phone...",
-      },
-   ];
+   const fields = useMemo(
+      () => [
+         {
+            id: "id",
+            label: "ID",
+            value: formData.id,
+            onChange: handleOnChange("id"),
+            placeholder: "Update id...",
+            disabled: true,
+         },
+         {
+            id: "FullName",
+            label: "FullName",
+            value: formData.fullName,
+            onChange: handleOnChange("fullName"),
+            placeholder: "Update Full name...",
+         },
+         {
+            id: "Phone",
+            label: "Phone",
+            value: formData.phone,
+            onChange: handleOnChange("phone"),
+            placeholder: "Update phone...",
+         },
+      ],
+      [formData, handleOnChange]
+   );
    const handleSubmit = async (e) => {
       e.preventDefault();
-      setIsModalOpen(false);
       const { id, fullName, phone } = formData;
-      // if (!fullName || !password || !email || !phone) return;
-      const response = await updateUser(id, fullName, phone);
-      if (response?.data) {
-         api.success({
-            message: "Update user",
-            description: "Update thành công",
+      if (!fullName || !phone) {
+         api.warning({
+            message: "Validation error",
+            description: "Full name và phone không được để trống.",
          });
-         await getAllUsers();
-      } else {
+         return;
+      }
+      setIsModalOpen(false);
+      try {
+         const response = await updateUser(id, fullName, phone);
+         if (response?.data) {
+            api.success({
+               message: "Update user",
+               description: "Update thành công",
+            });
+            await getAllUsers();
+         } else {
+            throw new Error(response?.message || "Unknown error");
+         }
+      } catch (error) {
          api.error({
             message: "Error user",
-            description: JSON.stringify(response?.message),
+            description: error.message,
          });
       }
+   };
+   const handleCancel = () => {
+      setIsModalOpen(false);
+      setFormData({ id: "", fullName: "", phone: "" });
    };
    return (
       <>
@@ -79,7 +97,7 @@ const UsersUpdate = ({
                title="Update user"
                open={isModalOpen}
                onOk={handleSubmit}
-               onCancel={() => setIsModalOpen(false)}
+               onCancel={handleCancel}
                maskClosable={false}
                okText="Save"
             >
