@@ -1,11 +1,25 @@
 import UsersForm from "../components/users/UsersForm";
-import UsersTable from "../components/users/userstable";
+import { useEffect, useState } from "react";
+import { getUsers } from "../services/api.services";
+import UsersTable from "../components/users/UsersTable";
 const UsersPage = () => {
+   const [dataUsers, setDataUsers] = useState([]);
+   const getAllUsers = async () => {
+      try {
+         const response = await getUsers();
+         setDataUsers(response?.data);
+      } catch (error) {
+         console.error("Failed to fetch users", error);
+      }
+   };
+   useEffect(() => {
+      getAllUsers();
+   }, []);
    return (
       <>
-         <UsersForm />
-         <div className="px-20 mt-20">
-            <UsersTable />
+         <UsersForm getAllUsers={getAllUsers} />
+         <div className="px-15 mt-14">
+            <UsersTable dataUsers={dataUsers} />
          </div>
       </>
    );

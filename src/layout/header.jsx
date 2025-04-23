@@ -38,7 +38,7 @@ const Header = () => {
                            to={href}
                            className={`p-4 hover:text-gray-300 transition duration-300 ${
                               pathName === href
-                                 ? "text-cyan-200 border-b border-cyan-200 rounded-b"
+                                 ? "text-cyan-200 border-b border-cyan-200 "
                                  : ""
                            }`}
                         >

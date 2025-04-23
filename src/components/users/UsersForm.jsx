@@ -1,9 +1,10 @@
-import { Button, message, notification } from "antd";
+import { Button, Modal, notification } from "antd";
 import { useState } from "react";
 import FormField from "./FormField";
 import { createUser } from "../../services/api.services";
-const UsersForm = () => {
+const UsersForm = ({ getAllUsers }) => {
    const [api, contextHolder] = notification.useNotification();
+   const [isModalOpen, setIsModalOpen] = useState(false);
    const [formData, setFormData] = useState({
       fullName: "",
       password: "",
@@ -46,6 +47,7 @@ const UsersForm = () => {
    ];
    const handleSubmit = async (e) => {
       e.preventDefault();
+      setIsModalOpen(false);
       const { fullName, password, email, phone } = formData;
       // if (!fullName || !password || !email || !phone) return;
       const response = await createUser(fullName, password, email, phone);
@@ -60,22 +62,30 @@ const UsersForm = () => {
             description: JSON.stringify(response?.message),
          });
       }
-      console.log("User response:", response.message);
+      await getAllUsers();
+      // setFormData({ fullName: "", password: "", email: "", phone: "" });
    };
    return (
       <>
          {contextHolder}
-         <form
-            action=""
-            onSubmit={handleSubmit}
-            className="max-w-5xl mx-auto mt-8"
-         >
-            {fields.map((field) => (
-               <FormField key={field.id} {...field} />
-            ))}
-            <Button type="primary" htmlType="submit" className="mt-4">
-               Create User
-            </Button>
+         <form action="" className="max-w-7xl mx-auto mt-4">
+            <Modal
+               title="Create user"
+               open={isModalOpen}
+               onOk={handleSubmit}
+               onCancel={() => setIsModalOpen(false)}
+               maskClosable={false}
+            >
+               {fields.map((field) => (
+                  <FormField key={field.id} {...field} />
+               ))}
+            </Modal>
+            <div className="flex justify-between w-full">
+               <h3>Table Users</h3>
+               <Button type="primary" onClick={() => setIsModalOpen(true)}>
+                  Create User
+               </Button>
+            </div>
          </form>
       </>
    );

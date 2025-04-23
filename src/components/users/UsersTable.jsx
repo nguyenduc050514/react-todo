@@ -1,23 +1,16 @@
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Table } from "antd";
-import { useEffect, useState } from "react";
-import { getUsers } from "../../services/api.services";
-const UsersTable = () => {
-   const [dataUsers, setDataUsers] = useState([]);
-   const getAllUsers = async () => {
-      try {
-         const response = await getUsers();
-         setDataUsers(response?.data);
-      } catch (error) {
-         console.error("Failed to fetch users", error);
-      }
-   };
-   useEffect(() => {
-      getAllUsers();
-   }, []);
+import UsersUpdate from "./UsersUpdate";
+import { useState } from "react";
+
+const UsersTable = ({ dataUsers }) => {
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [dataUpdate, setDataUpdate] = useState(null);
    const columns = [
       {
          title: "Id",
          dataIndex: "_id",
+         render: (id) => <a href="#">{id}</a>,
       },
       {
          title: "full Name",
@@ -35,7 +28,33 @@ const UsersTable = () => {
          title: "Phone",
          dataIndex: "phone",
       },
+      {
+         title: "Action",
+         key: "action",
+         render: (_, record) => (
+            <div className="flex gap-3">
+               <EditOutlined
+                  style={{ color: "orange", cursor: "pointer" }}
+                  onClick={() => {
+                     setIsModalOpen(true);
+                     setDataUpdate(record);
+                  }}
+               />
+               <DeleteOutlined style={{ color: "red", cursor: "pointer" }} />
+            </div>
+         ),
+      },
    ];
-   return <Table columns={columns} rowKey={"_id"} dataSource={dataUsers} />;
+   return (
+      <>
+         <Table columns={columns} rowKey={"_id"} dataSource={dataUsers} />
+         <UsersUpdate
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            dataUpdate={dataUpdate}
+            setDataUpdate={setDataUpdate}
+         />
+      </>
+   );
 };
 export default UsersTable;
