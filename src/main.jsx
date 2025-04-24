@@ -8,6 +8,7 @@ import RegisterPage from "./pages/register.jsx";
 import UsersPage from "./pages/users.jsx";
 import BooksPage from "./pages/books.jsx";
 import TodoApp from "./components/TodoApp.jsx";
+import ErrorPage from "./pages/error.jsx";
 const router = createBrowserRouter([
    {
       path: "/",
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
             element: <BooksPage />,
          },
       ],
+   },
+   {
+      path: "*",
+      element: <ErrorPage />,
    },
 ]);
 createRoot(document.getElementById("root")).render(

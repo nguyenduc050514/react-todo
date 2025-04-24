@@ -10,8 +10,19 @@ const UsersTable = ({ dataUsers, getAllUsers }) => {
    const [dataUpdate, setDataUpdate] = useState(null);
    const [isModalOpenDetail, setIsModalOpenDetail] = useState(false);
    const [deleteUserId, setDeleteUserId] = useState(null);
+   const [pagination, setPagination] = useState({
+      current: 1,
+      pageSize: 5,
+   });
    const columns = useMemo(
       () => [
+         {
+            title: "STT",
+            render: (_, __, index) =>
+               (pagination.current - 1) * pagination.pageSize + index + 1,
+            width: 80,
+            align: "center",
+         },
          {
             title: "Id",
             dataIndex: "_id",
@@ -72,7 +83,7 @@ const UsersTable = ({ dataUsers, getAllUsers }) => {
             ),
          },
       ],
-      [setIsModalOpen, setDataUpdate, setDeleteUserId]
+      [setIsModalOpen, setDataUpdate, setDeleteUserId, pagination]
    );
    const handleModalClose = () => {
       setIsModalOpen(false);
@@ -85,7 +96,13 @@ const UsersTable = ({ dataUsers, getAllUsers }) => {
    };
    return (
       <>
-         <Table columns={columns} rowKey={"_id"} dataSource={dataUsers} />
+         <Table
+            columns={columns}
+            rowKey={"_id"}
+            dataSource={dataUsers}
+            onChange={(p) => setPagination(p)}
+            pagination={pagination}
+         />
          <UsersUpdate
             isModalOpen={isModalOpen}
             setIsModalOpen={handleModalClose}
