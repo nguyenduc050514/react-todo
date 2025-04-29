@@ -1,5 +1,5 @@
 import { Button, Modal, notification } from "antd";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import FormField from "./FormField";
 import { createUser } from "../../services/api.services";
 const UsersForm = ({ getAllUsers }) => {
@@ -11,40 +11,47 @@ const UsersForm = ({ getAllUsers }) => {
       email: "",
       phone: "",
    });
-   const handleOnChange = (type) => {
-      return (e) => setFormData({ ...formData, [type]: e.target.value });
-   };
-   const fields = [
-      {
-         id: "FullName",
-         label: "FullName",
-         value: formData.fullName,
-         onChange: handleOnChange("fullName"),
-         placeholder: "Enter Full name...",
-      },
-      {
-         id: "Password",
-         label: "Password",
-         type: "password",
-         value: formData.password,
-         onChange: handleOnChange("password"),
-         placeholder: "Enter password...",
-      },
-      {
-         id: "Email",
-         label: "Email",
-         value: formData.email,
-         onChange: handleOnChange("email"),
-         placeholder: "Enter email...",
-      },
-      {
-         id: "Phone",
-         label: "Phone",
-         value: formData.phone,
-         onChange: handleOnChange("phone"),
-         placeholder: "Enter phone...",
-      },
-   ];
+   const handleOnChange = useCallback((type) => {
+      return (e) =>
+         setFormData((prevFormData) => ({
+            ...prevFormData,
+            [type]: e.target.value,
+         }));
+   }, []);
+   const fields = useMemo(
+      () => [
+         {
+            id: "FullName",
+            label: "FullName",
+            value: formData.fullName,
+            onChange: handleOnChange("fullName"),
+            placeholder: "Enter Full name...",
+         },
+         {
+            id: "Password",
+            label: "Password",
+            type: "password",
+            value: formData.password,
+            onChange: handleOnChange("password"),
+            placeholder: "Enter password...",
+         },
+         {
+            id: "Email",
+            label: "Email",
+            value: formData.email,
+            onChange: handleOnChange("email"),
+            placeholder: "Enter email...",
+         },
+         {
+            id: "Phone",
+            label: "Phone",
+            value: formData.phone,
+            onChange: handleOnChange("phone"),
+            placeholder: "Enter phone...",
+         },
+      ],
+      [formData, handleOnChange]
+   );
    const handleSubmit = async (e) => {
       e.preventDefault();
       setIsModalOpen(false);

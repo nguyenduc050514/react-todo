@@ -1,4 +1,4 @@
-import { Avatar, Button, Modal } from "antd";
+import { Button, Modal } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import FormField from "./FormField";
 const DetailUser = ({ isModalOpen, setIsModalOpen, dataUpdate }) => {

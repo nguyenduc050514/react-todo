@@ -1,36 +1,61 @@
+import { Button, Checkbox, Form, Input } from "antd";
+import { useForm } from "antd/es/form/Form";
+
 const LoginPage = () => {
+   const [form] = useForm();
    const itemsLogin = [
       {
+         id: "email",
          content: "Email",
          type: "email",
+         rules: [
+            { required: true, message: "Please enter your email" },
+            { type: "email", message: "Please enter a valid email" },
+         ],
+         placeholder: "Enter email...",
+         autoComplete: "email", // Thêm autoComplete
       },
       {
+         id: "password",
          content: "Password",
          type: "password",
+         rules: [{ required: true, message: "Please enter your password" }],
+         placeholder: "Enter password...",
+         autoComplete: "current-password", // Thêm autoComplete
       },
    ];
+
+   const onFinish = (values) => {
+      console.log(values);
+   };
+
    return (
       <div className="max-w-md mx-auto mt-10">
          <h2 className="font-bold text-2xl text-center">Đăng Nhập</h2>
-         <form action="" className="space-y-4 mt-4">
-            {itemsLogin.map(({ content, type }) => (
-               <div key={content}>
-                  <label className="block text-md font-medium">
-                     {content}:
-                  </label>
-                  <input
-                     type={type}
-                     className="w-full px-4 py-2 border rounded-md"
-                  />
-               </div>
-            ))}
-            <button
-               type="submit"
-               className="block w-fit px-4 py-3 bg-blue-500 rounded-md text-white mx-auto cursor-pointer hover:bg-blue-700"
-            >
-               Đăng nhập
-            </button>
-         </form>
+         <Form form={form} name="basic" layout="vertical" onFinish={onFinish}>
+            {itemsLogin.map(
+               ({ content, type, id, rules, placeholder, autoComplete }) => (
+                  <Form.Item key={id} label={content} name={id} rules={rules}>
+                     {type === "password" ? (
+                        <Input.Password
+                           placeholder={placeholder}
+                           autoComplete={autoComplete}
+                        />
+                     ) : (
+                        <Input
+                           placeholder={placeholder}
+                           autoComplete={autoComplete}
+                        />
+                     )}
+                  </Form.Item>
+               )
+            )}
+            <Form.Item>
+               <Button type="primary" onClick={() => form.submit()}>
+                  Login
+               </Button>
+            </Form.Item>
+         </Form>
       </div>
    );
 };
